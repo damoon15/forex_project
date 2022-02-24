@@ -1,32 +1,30 @@
-from app import app 
+#from app import app
 import base64
 import io
-from flask import Flask
+from flask import Flask, request
 from flask import render_template
 from matplotlib import pyplot as plt
-from func_pool import create_data, get_dates, get_prediction, plot_data
-from utils_forex import data, model
+from datetime import datetime,timedelta
+from func_pool import create_data, get_dates, get_prediction, plot_data, input_dates, create_model
+from utils_forex import data
 
 app = Flask(__name__)
 @app.route('/')
 def home():
-    return "Hello world!"
-
-@app.route('/template')
-def template():
     return render_template('home.html')
+
+
 
 
 @app.route('/plot')
 def build_plot():
 
     img = io.BytesIO()
-
-    train_data, test_data = create_data(data)
-    start_date, end_date = get_dates(test_data)
-    predictions, residual = get_prediction(model, test_data, start_date, end_date)
-    #plot_data(test_data, predictions)
-
+    train_start_date, train_end_date, test_start_date, test_end_date = input_dates()
+    train_data, test_data = create_data(data, train_start_date ,train_end_date, test_start_date, test_end_date)
+    model = create_model(train_data)
+    predictions, residual = get_prediction(model, test_data)
+    plot_data(test_data, predictions)
     plt.figure(figsize=(10,4))
     plt.plot(test_data)
     plt.plot(predictions)
