@@ -1,4 +1,4 @@
-#from app import app
+from app import app
 import base64
 import io
 from flask import Flask, request
@@ -8,7 +8,7 @@ from datetime import datetime,timedelta
 from func_pool import create_data, get_dates, get_prediction, plot_data, input_dates, create_model
 from utils_forex import data
 
-app = Flask(__name__)
+#app = Flask(__name__)
 @app.route('/')
 def home():
     return render_template('home.html')
@@ -20,6 +20,7 @@ def home():
 def build_plot():
 
     img = io.BytesIO()
+
     train_start_date, train_end_date, test_start_date, test_end_date = input_dates()
     train_data, test_data = create_data(data, train_start_date ,train_end_date, test_start_date, test_end_date)
     model = create_model(train_data)
@@ -40,5 +41,7 @@ def build_plot():
     plot_url = base64.b64encode(img.getvalue()).decode()
 
     return '<img src="data:image/png;base64,{}">'.format(plot_url)
-if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+
+
+#if __name__ == "__main__":
+  #  app.run(debug=True, port=5000)
