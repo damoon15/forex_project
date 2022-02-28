@@ -1,17 +1,12 @@
-FROM tiangolo/uwsgi-nginx-flask:python3.8
-#RUN apk --update add bash nano
-##ENV STATIC_URL /static
-##ENV STATIC_PATH ./app/static
+FROM python:3.8-slim-buster
 
-##COPY . /
+WORKDIR /app
 
-##RUN pip install -r ./requirements.txt
+EXPOSE 8000
+ENV FLASK_APP=wsgi.py
+ENV FLASK_ENV=development
 
-FROM tiangolo/uwsgi-nginx-flask:python3.8
-#RUN apk --update add bash nano
-ENV STATIC_URL /static
-ENV STATIC_PATH ./app/static
-
-COPY ./requirements.txt /app/requirements.txt
-
+COPY . /app
 RUN pip install -r requirements.txt
+
+CMD [ "python3",  "app.py"]
