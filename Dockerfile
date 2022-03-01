@@ -2,8 +2,8 @@ FROM python:3.8-slim-buster
 
 WORKDIR /app
 
-EXPOSE 8000
-ENV FLASK_APP=wsgi.py
+EXPOSE 8001
+
 ENV FLASK_ENV=development
 
 COPY . /app
