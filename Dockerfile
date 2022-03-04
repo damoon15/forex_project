@@ -2,7 +2,7 @@ FROM python:3.8-slim-buster
 
 WORKDIR /app
 
-EXPOSE 8008
+EXPOSE 8000
 
 ENV FLASK_ENV=development
 
