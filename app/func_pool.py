@@ -3,7 +3,10 @@ from datetime import datetime,timedelta
 import matplotlib.pyplot as plt
 import pickle
 from statsmodels.tsa.statespace.sarimax import SARIMAX
+from statsmodels.tsa.seasonal import STL
 from flask import request
+from scipy.signal import argrelextrema
+import numpy as np
 
 
 
@@ -58,6 +61,19 @@ def input_dates():
     test_start_date = dates_test[0]
     test_end_date = dates_test[1]
     return train_start_date, train_end_date, test_start_date, test_end_date
+def get_seasonal(data):
+    stl = STL(data)
+    result = stl.fit()
+    seasonal, trend, resid = result.seasonal, result.trend, result.resid
+    return seasonal
+def get_peaks(seasonal, n):
+    df = seasonal.to_frame(name='data')
+    df['min'] = df.iloc[argrelextrema(df.data.values, np.less_equal,order=n)[0]]['data']
+    df['max'] = df.iloc[argrelextrema(df.data.values, np.greater_equal,order=n)[0]]['data']
+    return df
+
+
+
 
 if __name__=='__main__':
     train_data, test_data = create_data(data)
