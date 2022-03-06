@@ -17,7 +17,9 @@ def toDate(dateString):
     return datetime.strptime(dateString, "%Y-%m-%d").date()
 
 if __name__=='__main__':
-    model.summary()
+    #odel.summary()
+    with open ('./model_sarima.pkl', 'rb') as file:
+        model = pickle.load(file)
 
 
 
