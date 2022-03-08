@@ -4,3 +4,4 @@ statsmodels
 yfinance
 datetime
 gunicorn
+plotly

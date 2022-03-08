@@ -1,4 +1,4 @@
-from utils_forex import data, toDate
+from app.functions.utils_forex import data, toDate
 from datetime import datetime, timedelta, date
 import matplotlib.pyplot as plt
 import pickle
@@ -9,6 +9,8 @@ from scipy.signal import argrelextrema
 import numpy as np
 
 
+
+#%%
 def create_data(data, train_start_date, train_end_date, test_start_date, test_end_date):
     close_data = data['Close']
     close_data = close_data.interpolate()

@@ -1,59 +1,15 @@
-# #from app import app
-# import base64
-# import io
-# from flask import Flask, request
-# from flask import render_template
-# from matplotlib import pyplot as plt
-# import matplotlib
-# from datetime import datetime,timedelta
-# from app.functions.func_pool import create_data, get_dates, get_prediction, plot_data, input_dates, create_model
-# from app.functions.utils_forex import data
-
-# app = Flask(__name__)
-# @app.route('/')
-# def home():
-#     return render_template('home.html')
-
-
-# @app.route('/plot')
-# def build_plot():
-#     matplotlib.use("Agg")
-#     img = io.BytesIO()
-
-#     train_start_date, train_end_date, test_start_date, test_end_date = input_dates()
-#     train_data, test_data = create_data(data, train_start_date ,train_end_date, test_start_date, test_end_date)
-#     model = create_model(train_data)
-#     predictions, residual = get_prediction(model, test_data)
-#     plot_data(test_data, predictions)
-#     plt.figure(figsize=(10,4))
-#     plt.plot(test_data)
-#     plt.plot(predictions)
-#     plt.legend(('Data', 'Predictions'), fontsize=16)
-#     plt.title('Japanese Yen/Australian Dollar', fontsize=20)
-#     plt.ylabel('Close', fontsize=16)
-
-#     plt.savefig(img, format='png')
-#     img.seek(0)
-
-#     plot_url = base64.b64encode(img.getvalue()).decode()
-
-#     return '<img src="data:image/png;base64,{}">'.format(plot_url)
-
-
-# #if __name__ == "__main__":
-#   #  app.run(debug=True, port=5000)
-
-
 #from app import app
 import base64
 import io
-from flask import Flask, request
+from flask import Flask, request, redirect
 from flask import render_template
 from matplotlib import pyplot as plt
+from datetime import datetime,timedelta, date
+
 import matplotlib
-from datetime import date, datetime,timedelta
-from app.functions.func_pool import create_data, get_dates, get_peaks, get_prediction, get_prediction_res, get_seasonal, plot_data, input_dates, create_model
+from app.functions.func_pool import create_data, get_dates, get_prediction_res, get_prediction, plot_data, input_dates, create_model, get_peaks, get_seasonal
 from app.functions.utils_forex import data
+import matplotlib.dates as mdates
 
 app = Flask(__name__)
 @app.route('/')
@@ -64,6 +20,7 @@ def home():
 #@app.route('/', methods=['POST'])
 @app.route('/build_plot')
 def build_plot():
+    matplotlib.use("agg")
 
     img = io.BytesIO()
     train_start_date, train_end_date, test_start_date, test_end_date = input_dates()
@@ -157,3 +114,6 @@ def build_plot():
     return render_template('predictions.html', graphs=list)
     #return render_template(graphs=list)
 
+
+# if __name__ == "__main__":
+#     app.run(debug=True, port=5000)

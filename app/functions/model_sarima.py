@@ -1,4 +1,3 @@
-import pickle
 # Raw Package
 import numpy as np
 import pandas as pd
@@ -24,3 +23,7 @@ model_output = model.fit(maxiter=500, method='nm')
 with open('./model_sarima.pkl', 'wb') as file:
     pickle.dump(model_output, file)
 
+#if __name__ == '__main__':
+ #   print('salam')
+
+#%%
