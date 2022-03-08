@@ -1,3 +1,4 @@
+import pickle
 # Raw Package
 import numpy as np
 import pandas as pd
@@ -12,7 +13,7 @@ from statsmodels.tsa.arima.model import ARIMA
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 from statsmodels.tsa.stattools import adfuller
 from statsmodels.tsa.seasonal import STL
-from app.functions.utils_forex import data
+from utils_forex import data
 from func_pool import create_data
 import pickle
 
@@ -23,7 +24,3 @@ model_output = model.fit(maxiter=500, method='nm')
 with open('./model_sarima.pkl', 'wb') as file:
     pickle.dump(model_output, file)
 
-#if __name__ == '__main__':
- #   print('salam')
-
-#%%

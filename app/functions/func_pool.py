@@ -1,15 +1,14 @@
-from app.functions.utils_forex import data, toDate
-from datetime import datetime,timedelta
+from utils_forex import data, toDate
+from datetime import datetime, timedelta, date
 import matplotlib.pyplot as plt
 import pickle
 from statsmodels.tsa.statespace.sarimax import SARIMAX
-from flask import request
 from statsmodels.tsa.seasonal import STL
+from flask import request
 from scipy.signal import argrelextrema
 import numpy as np
 
 
-#%%
 def create_data(data, train_start_date, train_end_date, test_start_date, test_end_date):
     close_data = data['Close']
     close_data = close_data.interpolate()
@@ -41,7 +40,8 @@ def get_prediction_res(model, test_data):
     end_date = test_data.index[-1]
     predictions = model.predict(start=start_date, end=end_date)
     residuals = test_data - predictions
-    return predictions, residuals
+    error_percent = np.divide(residuals,test_data)*100
+    return predictions, residuals, error_percent
 
 def plot_data(test_data, predictions):
     plt.figure(figsize=(10,4))
