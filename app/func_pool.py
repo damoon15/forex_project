@@ -42,7 +42,8 @@ def get_prediction_res(model, test_data):
     end_date = test_data.index[-1]
     predictions = model.predict(start=start_date, end=end_date)
     residuals = test_data - predictions
-    return predictions, residuals
+    error_percent = np.divide(residuals,test_data)*100
+    return predictions, residuals, error_percent
 
 def plot_data(test_data, predictions):
     plt.figure(figsize=(10,4))
