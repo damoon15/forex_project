@@ -4,7 +4,9 @@ import matplotlib.pyplot as plt
 import pickle
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 from flask import request
-
+from statsmodels.tsa.seasonal import STL
+from scipy.signal import argrelextrema
+import numpy as np
 
 
 #%%
@@ -34,7 +36,7 @@ def get_dates(test_data):
     end_date = test_data.index[-1]
     return start_date, end_date
 
-def get_prediction(model, test_data):
+def get_prediction_res(model, test_data):
     start_date = test_data.index[0]
     end_date = test_data.index[-1]
     predictions = model.predict(start=start_date, end=end_date)
@@ -58,9 +60,25 @@ def input_dates():
     test_start_date = dates_test[0]
     test_end_date = dates_test[1]
     return train_start_date, train_end_date, test_start_date, test_end_date
+def get_seasonal(data):
+    stl = STL(data)
+    result = stl.fit()
+    seasonal, trend, resid = result.seasonal, result.trend, result.resid
+    return seasonal
+def get_peaks(seasonal, n):
+    df = seasonal.to_frame(name='data')
+    df['min'] = df.iloc[argrelextrema(df.data.values, np.less_equal,order=n)[0]]['data']
+    df['max'] = df.iloc[argrelextrema(df.data.values, np.greater_equal,order=n)[0]]['data']
+    return df
+def get_prediction(model, start_date, end_date):
+    predictions = model.predict(start=start_date, end=end_date)
+    return predictions
 
 if __name__=='__main__':
-    train_data, test_data = create_data(data)
-    start_date, end_date = get_dates(test_data)
-    a, b = get_prediction(model, test_data, start_date, end_date)
-    plot_data(test_data, a)
+    #train_data, test_data = create_data(data)
+    #start_date, end_date = get_dates(test_data)
+    #a, b = get_prediction(model, test_data, start_date, end_date)
+    #plot_data(test_data, a)
+    #future_predict = get_prediction(model, date.today(), date.today() + timedelta(days=3))
+    seasonal_prediction = get_prediction(model, data.index[190], date.today()+timedelta(days=3))
+    future_predict = get_prediction(model, date.today() - timedelta(days=9), date.today() + timedelta(days=3))
