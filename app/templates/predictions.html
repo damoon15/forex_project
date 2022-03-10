@@ -8,19 +8,41 @@
     <title>The predictions</title>
 </head>
 <body>
-<h1>Model Performance:</h1>
+
+    <h1>Welcome to the Forex Predictor</h1>
+    <h2>Please enter train start and end dates</h2>
+    <form action="{{url_for('build_plot')}}">
+    {% for i in range(2) %}
+    <input type="date" name="dates_entry_train">
+    <br>
+    {% endfor %}
+    <br>
+    <h2>Please enter test start and end dates</h2>
+    {% for i in range(2) %}
+    <input type="date" name="dates_entry_test">
+    <br>
+    {% endfor %}
+        <br>
+    <input type="submit">
+    </from>
+
+
+
+<div>
+<h1>{{ graphs[3] }}</h1>
 <img src={{ graphs[0] }}>
 <br>
 </body>
 <body>
-<h1>Forex prediction for the next 3 days::</h1>
+<h1>{{ graphs[4] }}</h1>
 <img src={{ graphs[2] }}>
 <br>
 </body>
 <body>
-<h1>Seasonal maximums and minimums from the predictions:</h1>
+<h1>{{ graphs[5] }}</h1>
 
 <img src={{ graphs[1] }} >
+</div>
 </body>
 </html>
 

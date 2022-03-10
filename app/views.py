@@ -14,7 +14,8 @@ import matplotlib.dates as mdates
 app = Flask(__name__)
 @app.route('/')
 def home():
-    return render_template('home.html')
+    list = ["", "", "", "","",""]
+    return render_template('predictions.html', graphs= list)
 
 
 #@app.route('/', methods=['POST'])
@@ -109,10 +110,10 @@ def build_plot():
     out1 = "data:image/png;base64,{}".format(plot_url1)
     out2 = "data:image/png;base64,{}".format(plot_url2)
 
-    list = [out, out1, out2]
+    list = [out, out1, out2, "Model Performance:", "Forex prediction for the next 3 days:", "Seasonal maximums and minimums from the predictions:"]
 
     return render_template('predictions.html', graphs=list)
-    #return render_template(graphs=list)
+
 
 
 # if __name__ == "__main__":
