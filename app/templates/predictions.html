@@ -23,26 +23,27 @@
     <br>
     {% endfor %}
         <br>
-    <input type="submit">
+    <input type="submit" value="Predict">
     </from>
 
 
-
-<div>
-<h1>{{ graphs[3] }}</h1>
-<img src={{ graphs[0] }}>
-<br>
-</body>
-<body>
-<h1>{{ graphs[4] }}</h1>
-<img src={{ graphs[2] }}>
-<br>
-</body>
-<body>
-<h1>{{ graphs[5] }}</h1>
-
-<img src={{ graphs[1] }} >
-</div>
-</body>
-</html>
+    <body>
+    <h1>Model Performance:</h1>
+    <img src={{ graphs[0] }}>
+    <br>
+    </body>
+    <body>
+    <h1>Forex prediction for the next days:</h1>
+    <img src={{ graphs[2] }}>
+    </body>
+    <body>
+    <h1>Seasonal maxima and minima from the predictions:</h1>
+    <img src={{ graphs[1] }}>
+    </body>
+    <body>
+    <h1>Prediction Peaks:</h1>
+    <img src={{ graphs[3] }}>
+    <br>
+    </body>
+    </html>
 
